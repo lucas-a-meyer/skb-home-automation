@@ -8,6 +8,10 @@ from dotenv import load_dotenv
 app = Flask(__name__)
 app.secret_key = b'skb_2024'
 
+@app.route('/')
+def index():
+    return render_template('index.html')
+
 @app.route('/operate_light', methods=['POST'])
 async def operate_light():
     kernel = sk.Kernel()
