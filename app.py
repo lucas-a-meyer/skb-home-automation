@@ -4,6 +4,7 @@ from semantic_kernel.connectors.ai.open_ai import OpenAIChatCompletion
 import semantic_kernel as sk
 from HomeAutomation import HomeAutomation
 from dotenv import load_dotenv
+import logging
 
 app = Flask(__name__)
 app.secret_key = b'skb_2024'
@@ -24,7 +25,9 @@ async def operate_light():
     location = data['location']
     action = data['action']
 
-    result = str(kernel.invoke(kernel.plugins["HomeAutomation"]["OperateLight"], location=location, action=action))
+    result = str(await kernel.invoke(kernel.plugins["HomeAutomation"]["OperateLight"], location=location, action=action))
+    print(result)
+
     return jsonify({'result': result})
 
 @app.route('/operate_garage_door', methods=['POST'])
@@ -37,7 +40,9 @@ async def operate_garage_door():
     
     data = request.get_json()
     action = data['action']
-    result = str(kernel.invoke(kernel.plugins["HomeAutomation"]["OperateGarageDoor"], action=action))
+    result = str(await kernel.invoke(kernel.plugins["HomeAutomation"]["OperateGarageDoor"], action=action))
+    print(result)
+
     return jsonify({'result': result})
 
 if __name__ == '__main__':
